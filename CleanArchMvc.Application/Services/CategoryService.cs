@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchMvc.Application.DTO_s;
 using CleanArchMvc.Application.Interfaces;
+using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -34,19 +35,19 @@ namespace CleanArchMvc.Application.Services
 
         public async Task Add(CategoryDTO categoryDTO)
         {
-            var categoryEntity = _mapper.Map<CategoryDTO>(categoryDTO);
+            var categoryEntity = _mapper.Map<Category>(categoryDTO);
             await _categoryRepository.CreateAsync(categoryEntity);
         }
 
         public async Task Update(CategoryDTO categoryDTO)
         {
-            var categoryEntity = _mapper.Map<CategoryDTO>(categoryDTO);
+            var categoryEntity = _mapper.Map<Category>(categoryDTO);
             await _categoryRepository.UpdateAsync(categoryEntity);
         }
 
         public async Task Remove(int? id)
         {
-            var categoryEntity = _categoryRepository.GetByIdAsync(id); ;
+            var categoryEntity = _categoryRepository.GetByIdAsync(id).Result;
             await _categoryRepository.RemoveAsync(categoryEntity);
         }
     }
