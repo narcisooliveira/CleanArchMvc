@@ -1,10 +1,11 @@
 using CleanArchMvc.Infra.Data.Context;
-using Microsoft.AspNetCore.Builder;
+using CleanArchMvc.Infra.IoC;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>
     (options =>

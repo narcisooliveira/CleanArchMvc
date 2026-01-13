@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CleanArchMvc.Application.DTO_s;
+using CleanArchMvc.Application.DTOs;
 using CleanArchMvc.Application.Interfaces;
 using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
