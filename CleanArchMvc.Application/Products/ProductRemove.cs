@@ -1,15 +1,12 @@
-﻿using CleanArchMvc.Application.Products.Commands;
-using CleanArchMvc.Domain.Entities;
+﻿using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
 using MediatR;
 
-namespace CleanArchMvc.Application.Products.Handlers;
+namespace CleanArchMvc.Application.Products;
 
-public class ProductRemoveHandler : ProductBaseHandler, IRequestHandler<ProductRemoveCommand, Product>
+public class ProductRemove : ProductBase, IRequestHandler<ProductRemoveCommand, Product>
 {
-    public ProductRemoveHandler(IProductRepository productRepository) : base(productRepository)
-    {
-    }
+    public ProductRemove(IProductRepository productRepository) : base(productRepository) { }
 
     public async Task<Product> Handle(ProductRemoveCommand request, CancellationToken cancellationToken)
     {
@@ -19,5 +16,15 @@ public class ProductRemoveHandler : ProductBaseHandler, IRequestHandler<ProductR
         await ProductRepository.RemoveAsync(product, cancellationToken);
 
         return product;
+    }
+}
+
+public class ProductRemoveCommand : IRequest<Product>
+{
+    public int Id { get; set; }
+
+    public ProductRemoveCommand(int id)
+    {
+        Id = id;
     }
 }

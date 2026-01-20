@@ -1,12 +1,12 @@
 ﻿using CleanArchMvc.Domain.Interfaces;
 
-namespace CleanArchMvc.Application.Products.Handlers;
+namespace CleanArchMvc.Application.Products;
 
-public abstract class ProductBaseHandler
+public abstract class ProductBase
 {
     private readonly IProductRepository _productRepository;
 
-    protected ProductBaseHandler(IProductRepository productRepository)
+    protected ProductBase(IProductRepository productRepository)
     {
         _productRepository = productRepository;
     }

@@ -21,9 +21,14 @@ public static class DependencyInjection
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
 
-        services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+
+        services.AddMediatR(cfg =>
+        {
+            var assembly = AppDomain.CurrentDomain.Load("CleanArchMvc.Application");
+            cfg.RegisterServicesFromAssembly(assembly);
+        });
 
         return services;
     }

@@ -1,13 +1,12 @@
-﻿using CleanArchMvc.Application.Products.Commands;
-using CleanArchMvc.Domain.Entities;
+﻿using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
 using MediatR;
 
-namespace CleanArchMvc.Application.Products.Handlers;
+namespace CleanArchMvc.Application.Products;
 
-public class ProductUpdateHandler : ProductBaseHandler, IRequestHandler<ProductUpdateCommand, Product>
+public class ProductUpdate : ProductBase, IRequestHandler<ProductUpdateCommand, Product>
 {
-    public ProductUpdateHandler(IProductRepository productRepository) : base(productRepository)
+    public ProductUpdate(IProductRepository productRepository) : base(productRepository)
     {
     }
 
@@ -20,4 +19,9 @@ public class ProductUpdateHandler : ProductBaseHandler, IRequestHandler<ProductU
         await ProductRepository.UpdateAsync(product, cancellationToken);
         return product;
     }
+}
+
+public class ProductUpdateCommand : ProductCommand
+{
+    public int Id { get; set; }
 }

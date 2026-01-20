@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
-using CleanArchMvc.Application.Products.Commands;
 using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
 using MediatR;
 
-namespace CleanArchMvc.Application.Products.Handlers;
+namespace CleanArchMvc.Application.Products;
 
-public class ProductCreateHandler : ProductBaseHandler, IRequestHandler<ProductCreateCommand, Product>
+public class ProductCreate : ProductBase, IRequestHandler<ProductCreateCommand, Product>
 {
     private readonly IMapper _mapper;
 
-    public ProductCreateHandler(IProductRepository productRepository, IMapper mapper) : base(productRepository)
+    public ProductCreate(IProductRepository productRepository, IMapper mapper) : base(productRepository)
     {
         _mapper = mapper;
     }
@@ -22,3 +21,5 @@ public class ProductCreateHandler : ProductBaseHandler, IRequestHandler<ProductC
         return product;
     }
 }
+
+public class ProductCreateCommand : ProductCommand { }
