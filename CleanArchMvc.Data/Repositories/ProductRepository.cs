@@ -7,42 +7,40 @@ namespace CleanArchMvc.Infra.Data.Repositories;
 
 public class ProductRepository : IProductRepository
 {
-    ApplicationDbContext _productContext;
+    private readonly ApplicationDbContext _productContext;
 
     public ProductRepository(ApplicationDbContext context)
+        => _productContext = context;
+   
+    public async Task<Product> CreateAsync(Product product, CancellationToken cancellationToken)
     {
-        _productContext = context;
-    }
-
-    public async Task<Product> CreateAsync(Product product)
-    {
-        _productContext.Add(product);
-        await _productContext.SaveChangesAsync();
+        await _productContext.AddAsync(product, cancellationToken);
+        await _productContext.SaveChangesAsync(cancellationToken);
         return product;
     }
 
-    public async Task<Product?> GetByIdAsync(int? id)
-        => await _productContext.Products.FindAsync(id);    
+    public async Task<Product?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await _productContext.Products.FindAsync(new object?[] { id }, cancellationToken);
 
-    public async Task<IEnumerable<Product>> GetProductAsync()    
-        => await _productContext.Products.ToListAsync();    
+    public async Task<IEnumerable<Product>> GetProductAsync(CancellationToken cancellationToken)    
+        => await _productContext.Products.ToListAsync(cancellationToken);    
 
-    public async Task<Product?> GetProductCategoryAsync(int? id)    
+    public async Task<Product?> GetProductCategoryAsync(int id, CancellationToken cancellationToken)    
         => await _productContext.Products
             .Include(c => c.Category)
-            .SingleOrDefaultAsync(p => p.Id == id);    
+            .SingleOrDefaultAsync(p => p.Id == id, cancellationToken);    
 
-    public async Task<Product> RemoveAsync(Product product)
+    public async Task<Product> RemoveAsync(Product product, CancellationToken cancellationToken)
     {
         _productContext.Remove(product);
-        await _productContext.SaveChangesAsync();
+        await _productContext.SaveChangesAsync(cancellationToken);
         return product;
     }
 
-    public async Task<Product> UpdateAsync(Product product)
+    public async Task<Product> UpdateAsync(Product product, CancellationToken cancellationToken)
     {
         _productContext.Update(product);
-        await _productContext.SaveChangesAsync();
+        await _productContext.SaveChangesAsync(cancellationToken);
         return product;
     }
 }
