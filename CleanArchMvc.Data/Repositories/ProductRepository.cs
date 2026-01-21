@@ -20,15 +20,12 @@ public class ProductRepository : IProductRepository
     }
 
     public async Task<Product?> GetByIdAsync(int id, CancellationToken cancellationToken)
-        => await _productContext.Products.FindAsync(new object?[] { id }, cancellationToken);
+        => await _productContext.Products
+            .Include(c => c.Category)
+            .SingleOrDefaultAsync(p => p.Id == id, cancellationToken);
 
     public async Task<IEnumerable<Product>> GetProductAsync(CancellationToken cancellationToken)    
         => await _productContext.Products.ToListAsync(cancellationToken);    
-
-    public async Task<Product?> GetProductCategoryAsync(int id, CancellationToken cancellationToken)    
-        => await _productContext.Products
-            .Include(c => c.Category)
-            .SingleOrDefaultAsync(p => p.Id == id, cancellationToken);    
 
     public async Task<Product> RemoveAsync(Product product, CancellationToken cancellationToken)
     {
