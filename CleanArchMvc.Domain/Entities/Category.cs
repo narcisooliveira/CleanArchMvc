@@ -12,7 +12,7 @@ public sealed class Category
     }
     public Category(int id, string name)
     {
-        DomainExceptionValidation.When(id <= 0, "Invalid Id");
+        DomainExceptionValidation.When(id < 0, "Invalid Id");
         Id = id;
         ValidateDomain(name);
     }

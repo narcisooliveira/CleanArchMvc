@@ -3,18 +3,14 @@ using CleanArchMvc.Application.DTOs;
 using CleanArchMvc.Application.Interfaces;
 using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CleanArchMvc.Application.Services
 {
     public class CategoryService : ICategoryService
     {
-        private ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
+
         public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _categoryRepository = categoryRepository;
@@ -47,7 +43,9 @@ namespace CleanArchMvc.Application.Services
 
         public async Task Remove(int? id)
         {
-            var categoryEntity = _categoryRepository.GetByIdAsync(id).Result;
+            var categoryEntity = await _categoryRepository.GetByIdAsync(id)
+                ?? throw new Exception("Category not found");
+
             await _categoryRepository.RemoveAsync(categoryEntity);
         }
     }
