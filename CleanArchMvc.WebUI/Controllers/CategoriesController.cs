@@ -40,11 +40,11 @@ public class CategoriesController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
-        if (id is null) 
+        if (id is null)
             return NotFound();
 
         var categoryDto = await _categoryService.GetById(id.Value);
-        if (categoryDto is null) 
+        if (categoryDto is null)
             return NotFound();
 
         return View(categoryDto);
@@ -59,5 +59,25 @@ public class CategoriesController : Controller
             return RedirectToAction(nameof(Index));
         }
         return View(category);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id is null)
+            return NotFound();
+
+        var categoryDto = await _categoryService.GetById(id.Value);
+        if (categoryDto is null)
+            return NotFound();
+
+        return View(categoryDto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _categoryService.Remove(id);
+        return RedirectToAction(nameof(Index));
     }
 }
