@@ -36,4 +36,28 @@ public class CategoriesController : Controller
         }
         return View(category);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id is null) 
+            return NotFound();
+
+        var categoryDto = await _categoryService.GetById(id.Value);
+        if (categoryDto is null) 
+            return NotFound();
+
+        return View(categoryDto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(CategoryDTO category)
+    {
+        if (ModelState.IsValid)
+        {
+            await _categoryService.Update(category);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(category);
+    }
 }
