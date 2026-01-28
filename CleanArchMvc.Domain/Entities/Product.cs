@@ -9,21 +9,25 @@ public class Product : Entity
     public decimal Price { get; private set; }
     public int Stock { get; private set; }
     public string Image { get; private set; }
+
     public Product(string name, string description, decimal price, int stock, string image)
     {
         ValidateDomain(name, description, price, stock, image);
     }
+
     public Product(int id, string name, string description, decimal price, int stock, string image)
     {
         DomainExceptionValidation.When(id < 0, "Invalid Id value");
         Id = id;
         ValidateDomain(name, description, price, stock, image);
     }
+
     public void Update(string name, string description, decimal price, int stock, string image, int categoryId)
     {
         ValidateDomain(name, description, price, stock, image);
         CategoryId = categoryId;
     }
+
     private void ValidateDomain(string name, string description, decimal price, int stock, string image)
     {
         DomainExceptionValidation.When(string.IsNullOrEmpty(name),
@@ -42,7 +46,10 @@ public class Product : Entity
 
         DomainExceptionValidation.When(stock < 0, "Invalid stock value");
 
-        DomainExceptionValidation.When(image?.Length > 100,
+        DomainExceptionValidation.When(string.IsNullOrEmpty(image),
+            "Invalid image. Image is required");
+
+        DomainExceptionValidation.When(image.Length > 100,
             "Invalid image name, too long, maximum 100 characters");
 
         Name = name;
@@ -51,6 +58,7 @@ public class Product : Entity
         Stock = stock;
         Image = image;
     }
+
     public int CategoryId { get; set; }
     public Category Category { get; set; }
 }
